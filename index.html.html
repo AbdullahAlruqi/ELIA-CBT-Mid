@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ELIA 120 – Mid CBT Practice Exam (Model 2)</title>
+<style>
+:root{--bg:#f6f1ea;--card:#fff;--text:#1f2430;--muted:#6b7280;--line:#e2ddd5;--pri:#d9822b;--priT:#fff;--hd:#fbd5b5;--sel:#fde8d2;--ok:#1a8f4d;--bad:#c93636;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#16130f;--card:#211d17;--text:#efe9e0;--muted:#a79f92;--line:#383128;--pri:#f0a050;--priT:#1b1308;--hd:#4a3420;--sel:#3d2d1b;--ok:#4cc27f;--bad:#ff7a7a}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#16130f;--card:#211d17;--text:#efe9e0;--muted:#a79f92;--line:#383128;--pri:#f0a050;--priT:#1b1308;--hd:#4a3420;--sel:#3d2d1b;--ok:#4cc27f;--bad:#ff7a7a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.55}
+.wrap{max-width:820px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px}
+.hd{background:var(--hd);text-align:center;font-weight:700;padding:8px;border-radius:8px;margin-bottom:12px}
+h1{margin:0 0 4px;font-size:1.5rem;text-align:center}
+.muted{color:var(--muted);font-size:.9rem}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:9px 15px}
+button.pri{background:var(--pri);border-color:var(--pri);color:var(--priT);font-weight:600}
+button:disabled{opacity:.4;cursor:not-allowed}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.timer{font-weight:700;font-size:1.2rem;font-variant-numeric:tabular-nums}
+.timer.low{color:var(--bad)}
+.passage{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;margin:10px 0;white-space:pre-line}
+.q{font-weight:600;font-size:1.05rem;margin:12px 0 6px}
+.opt{display:flex;gap:10px;align-items:center;width:100%;text-align:left;margin:6px 0;padding:11px 13px}
+.opt i{width:16px;height:16px;border:2px solid var(--muted);border-radius:50%;flex:none}
+.opt.sel{background:var(--sel);border-color:var(--pri)}
+.opt.sel i{background:var(--pri);border-color:var(--pri)}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px;flex-wrap:wrap}
+.pal{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pal button{width:38px;height:38px;padding:0;font-size:.85rem}
+.pal .ans{background:var(--sel);border-color:var(--pri)}
+.pal .mk{box-shadow:inset 0 0 0 3px #e0a100}
+.pal .cur{background:var(--pri);color:var(--priT);border-color:var(--pri)}
+.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}
+.hide{display:none}
+.ring{width:140px;height:140px;border-radius:50%;margin:8px auto;display:grid;place-items:center}
+.ring span{width:106px;height:106px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:1.8rem;font-weight:800}
+.rev{border-top:1px solid var(--line);padding:10px 0}
+.tx{font-size:.88rem;color:var(--muted);white-space:pre-line}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="start" class="card">
+  <h1>Mid CBT Practice Exam</h1>
+  <div class="hd">ELIA 120 · Model 2</div>
+  <p class="muted" style="text-align:center">Total Exam Points: 40 · Time Allowed: 70 Minutes</p>
+  <div class="row"><span><b>1. Listening</b> (Parts 1–4)</span><span>2 + 2 + 4 + 4</span></div>
+  <div class="row"><span><b>2. Reading</b> (Passages 1–2)</span><span>5 + 5</span></div>
+  <div class="row"><span><b>3. Grammar</b></span><span>9</span></div>
+  <div class="row"><span><b>4. Vocabulary</b></span><span>9</span></div>
+  <p class="muted">• Each audio track can be played <b>ONLY twice</b>.<br>• After you click “Finish Listening / إرسال”, you cannot return to the Listening questions.<br>• In the other sections you may review, change and mark any question.<br>• Click “Send / إرسال” to end the exam. Questions are original, written in the same style and level as your practice exam.</p>
+  <div style="text-align:center"><button class="pri" id="go">Start Exam</button></div>
+</div>
+
+<div id="exam" class="hide">
+  <div class="card">
+    <div class="top"><b id="sec"></b><span class="timer" id="timer">70:00</span></div>
+    <div class="muted" id="count"></div>
+    <div id="body"></div>
+    <div class="nav">
+      <button id="prev">Previous</button>
+      <button id="mark">⚑ Mark</button>
+      <button id="next" class="pri">Next</button>
+    </div>
+  </div>
+  <div class="card"><b>Questions</b><div class="pal" id="pal"></div>
+    <div class="muted" style="margin-top:8px">Orange outline = marked · Shaded = answered</div></div>
+</div>
+
+<div id="result" class="hide">
+  <div class="card" style="text-align:center">
+    <h1>Your Result</h1>
+    <div class="ring" id="ring"><span id="pct"></span></div>
+    <b id="tot"></b>
+    <div class="muted" id="verdict"></div>
+  </div>
+  <div class="card" id="secs"></div>
+  <div class="card"><b>Answer Review</b><div id="review"></div></div>
+  <button class="pri" onclick="location.reload()">Retake Exam</button>
+</div>
+</div>
+
+<script>
+var G=[
+[["Omar","Hi Sara. I’m going to a café near the university on Friday evening to watch the match with some friends. Do you want to come?"],["Sara","Thanks, Omar, but I can’t. I have to help my mother at her shop that night."],["Omar","No problem. Maybe next time."]],
+[["Khaled","Hani, can you help me? My hand really hurts."],["Hani","Oh no. What happened?"],["Khaled","I closed the car door on it this morning."],["Hani","Let’s go to the pharmacy right now. I can drive."]],
+[["Ali","Nada, I need a present for my grandfather’s birthday, but I’m terrible at choosing presents."],["Nada","Why do you say that?"],["Ali","Last year I bought him a scarf and he never wore it."],["Nada","What does he like?"],["Ali","He loves reading, but he already has hundreds of books."],["Nada","My grandfather likes useful things, like a new pen or a nice watch."],["Ali","Good idea, but a watch is too expensive. And I don’t know which pen he likes."],["Nada","What about a bookstore gift card? Then he can choose his own book."],["Ali","Perfect! I’ll buy that."]],
+[["","Good evening. Here is tomorrow’s weather forecast. Thursday will start cold and cloudy, with thick fog in the early morning, so drivers should drive slowly before eight o’clock. By midday the fog will disappear and it will be sunny and warm. In the afternoon, strong winds will arrive, and in the evening there will be heavy rain with thunder. Friday will be dry, but still very windy."]]
+];
+var P=[
+"Yusuf just started university. He has many different classes every week. His favorite class is computer science, but he does not like economics. Every morning his father drives him to the bus station. Then he takes the bus to campus.\n\nHis first class is English, and he likes his teacher a lot. The teacher says Yusuf writes very well. His next class is math. Yusuf finds math difficult, but he studies with his classmates, which he enjoys. His study partner, Faisal, is great at math and sometimes explains the hard problems to Yusuf. They are becoming good friends.\n\nAfter lunch he has computer science. Yusuf is very good at it, and he dreams of making a famous app one day. Time passes quickly in this class.\n\nHis last class is economics. Yusuf is tired and finds it boring. Finally, the class ends. He packs his bag and runs to catch the bus home.",
+"1\nLina Haddad is one of the best marathon runners in her country. She has won more races than any other woman in the last ten years. We wanted to know how she became so successful, so we asked her about her daily routine.\n\n2  In the morning\nI never skip morning training. Even on a busy day, I run for at least 30–40 minutes before I do anything else. Sometimes I run on the beach. Sometimes I use the gym. I finish my morning with a healthy breakfast.\n\n3  In the afternoon\nIn the middle of the day, I usually teach. I opened a small school that teaches running to young girls. I also try to rest for about an hour after teaching. I don’t like to run at this time because it is too hot. I drink a lot of water.\n\n4  In the evening\nI usually do light exercise around 6. After a short run, I have dinner with my husband and daughter. I love going out with friends too, but I can’t when I’m preparing for a big race because I need to go to bed early.\n\n5\nHonestly, rest is just as important as running. I train about 25 hours a week, but I sleep even more."
+];
+var Q=[];
+function add(sec,x,q,o,a){Q.push({sec:sec,g:x.g,p:x.p,q:q,o:o,a:a})}
+var L="Listening",R="Reading",GR="Grammar",V="Vocabulary";
+add(L,{g:0},"What plans does Omar have for Friday?",["Going to a restaurant with his cousins","Meeting friends to play video games","Going to a café to watch a match"],2);
+add(L,{g:0},"How does Sara respond to Omar’s invitation?",["She says she has to help her mother.","She says she doesn’t like football.","She says she will ask her brother."],0);
+add(L,{g:1},"What does Khaled want?",["He wants Hani to teach him to drive.","He wants help for his hand.","He wants to play football.","He doesn’t want anything."],1);
+add(L,{g:1},"What happened to Khaled’s hand?",["He burned it while cooking.","He hit it playing football.","He closed a car door on it.","He hurt it at work."],2);
+add(L,{g:2},"Why does Ali say he is not good at choosing presents?",["Because he never has enough money","Because his grandfather didn’t wear the scarf he bought","Because he forgets birthdays"],1);
+add(L,{g:2},"Why is it difficult to choose a book for Ali’s grandfather?",["He already has hundreds of books.","He doesn’t like reading.","He only reads newspapers."],0);
+add(L,{g:2},"What kind of gifts does Nada’s grandfather like?",["Food from other countries","Toys and games","Useful things"],2);
+add(L,{g:2},"What gift does Ali finally decide to get?",["A scarf","A bookstore gift card","A nice watch"],1);
+add(L,{g:3},"What will the weather be like early on Thursday morning?",["Rainy","Sunny","Foggy","Windy"],2);
+add(L,{g:3},"What should drivers do before eight o’clock?",["Drive slowly","Wear sunglasses","Stay at home","Drive with the windows open"],0);
+add(L,{g:3},"When will it become sunny and warm?",["Early in the morning","By midday","In the evening","On Friday"],1);
+add(L,{g:3},"How is Thursday evening’s weather described?",["Winds will slow down.","The weather will be dry.","The sky will be bright.","There will be heavy rain with thunder."],3);
+add(R,{p:0},"Which teacher does Yusuf like a lot?",["His math teacher","His English teacher","His economics teacher"],1);
+add(R,{p:0},"Who helps Yusuf with math?",["His father","His English teacher","A classmate who is good at math"],2);
+add(R,{p:0},"Why does Yusuf like computer science?",["He is good at it and dreams of making an app.","He likes the teacher’s jokes.","It is the shortest class."],0);
+add(R,{p:0},"What does the passage say about economics?",["It is his favorite subject.","It is his last class and he finds it boring.","He always studies it with friends."],1);
+add(R,{p:0},"What does Yusuf do after his last class?",["He has lunch.","He plays with his friends.","He catches the bus home."],2);
+add(R,{p:1},"What is the main idea of paragraph 1?",["The history of marathons","Lina’s afternoon routine","An introduction to Lina Haddad’s success","Lina’s family life"],2);
+add(R,{p:1},"Which of these does Lina do in the morning?",["She runs and after that she eats.","She eats and then she runs.","She always runs on the beach.","She teaches young girls."],0);
+add(R,{p:1},"When does Lina teach?",["Before breakfast","At night","After dinner","In the afternoon"],3);
+add(R,{p:1},"What is true about her afternoon routine?",["She spends time with her family.","She runs a long race.","She rests for about an hour.","She eats dinner."],2);
+add(R,{p:1},"Which is true for Lina when she prepares for a big race?",["She eats less.","She goes to bed early.","She has no time for her family.","She stops sleeping."],1);
+add(GR,{},"We ______ the new movie tonight.",["are going to watching","are going to watch","going to watch"],1);
+add(GR,{},"They all ______ the party last Friday.",["enjoyed","enjoys","enjoy"],0);
+add(GR,{},"My uncle ______ yesterday. He is still working.",["no retired","didn’t retired","didn’t retire"],2);
+add(GR,{},"You looked tired this morning. What time ______ you go to bed?",["have","do","did"],2);
+add(GR,{},"My friends and I ______ to the park tomorrow.",["did go","are going","be going"],1);
+add(GR,{},"Hurry up! The bus ______. We will be late for class.",["is leaving","are leaving","leave"],0);
+add(GR,{},"She ______ from Dammam. She lives in Jeddah.",["don’t","aren’t","isn’t"],2);
+add(GR,{},"Mona: Does your sister cook at the weekends?\nHana: No, she ______.",["doesn’t","don’t","does"],0);
+add(GR,{},"______ are my keys. Look, they have my name on them.",["That","These","This"],1);
+add(V,{},"You need a valid ______ to travel to another country.",["lipstick","passport","umbrella"],1);
+add(V,{},"Many people ______ at the age of 60 and stop working, but some work until they are 70.",["retire","graduate","apply"],0);
+add(V,{},"Reem broke her friend’s phone. Her friend is very ______ with her.",["polite","quiet","angry"],2);
+add(V,{},"Before you swim, it’s important to ______.",["fall asleep","warm up","sit down"],1);
+add(V,{},"Many students don’t ______ their homework on time.",["do","make","take"],0);
+add(V,{},"Hadi and Majed are my ______. We work in the same office.",["twins","colleagues","couples"],1);
+add(V,{},"I think our new manager is ______. He smiles and helps everyone.",["lazy","noisy","friendly"],2);
+add(V,{},"I usually wait for a ______ to buy new, expensive shoes.",["receipt","sale","customer"],1);
+add(V,{},"Nasser loves sweets, so I bought him a cake and some ______.",["curtains","keyboard","chocolate"],2);
+
+var NL=12,N=Q.length,ans=[],mk=[],plays=[0,0,0,0],cur=0,left=4200,tick=null,lisDone=false,playing=false,over=false;
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function fmt(n){return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
+function allowed(i){return lisDone?i>=NL:i<NL}
+function transcript(g){return G[g].map(function(l){return (l[0]?l[0]+": ":"")+l[1]}).join("\n")}
+function render(){
+  var q=Q[cur],h="";
+  $("sec").textContent=q.sec+(q.g!=null?" · Part "+(q.g+1):q.p!=null?" · Passage "+(q.p+1):"");
+  $("count").textContent="Question "+(cur+1)+" of "+N;
+  if(q.g!=null){
+    var left2=2-plays[q.g],can=window.speechSynthesis;
+    h+='<button id="play" class="pri"'+((left2<1||playing)?' disabled':'')+'>▶ Play audio ('+left2+' left)</button> <span class="muted">You can play the audio only twice.</span>';
+    if(!can)h+='<div class="passage">Audio is not supported in this browser. Transcript:\n'+esc(transcript(q.g))+'</div>';
+  }
+  if(q.p!=null)h+='<div class="passage">'+esc(P[q.p])+'</div>';
+  h+='<div class="q">'+esc(q.q).replace(/\n/g,"<br>")+'</div>';
+  q.o.forEach(function(o,i){h+='<button class="opt'+(ans[cur]===i?' sel':'')+'" data-i="'+i+'"><i></i>'+esc(o)+'</button>'});
+  $("body").innerHTML=h;
+  document.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){ans[cur]=+b.dataset.i;render()}});
+  if($("play"))$("play").onclick=function(){play(q.g)};
+  $("prev").disabled=!allowed(cur-1)||cur===0;
+  $("mark").textContent=mk[cur]?"⚑ Unmark":"⚑ Mark";
+  var lastL=cur===NL-1&&!lisDone;
+  $("next").textContent=cur===N-1?"Send / إرسال":lastL?"Finish Listening / إرسال":"Next";
+  $("next").disabled=false;
+  $("pal").innerHTML=Q.map(function(_,i){
+    var c=(i===cur?"cur ":"")+(ans[i]!=null?"ans ":"")+(mk[i]?"mk":"");
+    return '<button class="'+c+'" data-j="'+i+'"'+(allowed(i)?'':' disabled')+'>'+(i+1)+'</button>'}).join("");
+  document.querySelectorAll(".pal button").forEach(function(b){b.onclick=function(){cur=+b.dataset.j;render()}});
+}
+function play(g){
+  if(plays[g]>=2||playing)return;
+  plays[g]++;playing=true;render();
+  try{
+    speechSynthesis.cancel();
+    var lines=G[g],i=0;
+    (function nxt(){
+      if(i>=lines.length){playing=false;render();return}
+      var l=lines[i],u=new SpeechSynthesisUtterance(l[1]);
+      u.lang="en-GB";u.rate=.9;u.pitch=(i%2)?1.35:0.9;
+      u.onend=function(){i++;nxt()};u.onerror=function(){playing=false;render()};
+      speechSynthesis.speak(u);
+    })();
+  }catch(e){playing=false;render()}
+}
+function start(){
+  $("start").classList.add("hide");$("exam").classList.remove("hide");render();
+  tick=setInterval(function(){left--;$("timer").textContent=fmt(left);if(left<=300)$("timer").classList.add("low");if(left<=0)finish(true)},1000);
+}
+function finish(auto){
+  if(over)return;
+  if(!auto){
+    var un=N-ans.filter(function(x){return x!=null}).length;
+    if(!confirm(un?"You have "+un+" unanswered question(s). Send the exam?":"Send the exam and end it?"))return;
+  }
+  over=true;clearInterval(tick);try{speechSynthesis.cancel()}catch(e){}
+  var sc=0,by={};
+  Q.forEach(function(q,i){by[q.sec]=by[q.sec]||{c:0,n:0};by[q.sec].n++;if(ans[i]===q.a){sc++;by[q.sec].c++}});
+  var pct=Math.round(sc/N*100),col=pct>=70?"var(--ok)":pct>=50?"#e0a100":"var(--bad)";
+  $("exam").classList.add("hide");$("result").classList.remove("hide");
+  $("ring").style.background="conic-gradient("+col+" "+pct+"%,var(--line) 0)";
+  $("pct").textContent=pct+"%";
+  $("tot").textContent="Score: "+sc+" / "+N;
+  $("verdict").textContent=(auto?"Time is up. ":"")+(pct>=80?"ممتاز، أنت جاهز للاختبار":pct>=60?"جيد، راجع الأقسام الأضعف":"تحتاج إلى مزيد من التدريب");
+  $("secs").innerHTML="<b>Section Scores</b>"+Object.keys(by).map(function(k){return '<div class="row"><span>'+k+'</span><b>'+by[k].c+" / "+by[k].n+'</b></div>'}).join("");
+  var seen={};
+  $("review").innerHTML=Q.map(function(q,i){
+    var ok=ans[i]===q.a,t="";
+    if(q.g!=null&&!seen[q.g]){seen[q.g]=1;t='<div class="tx"><b>Audio script (Part '+(q.g+1)+')</b>\n'+esc(transcript(q.g))+'</div>'}
+    return '<div class="rev">'+t+'<b>'+(i+1)+". "+esc(q.q).replace(/\n/g,"<br>")+'</b><br><span style="color:'+(ok?'var(--ok)':'var(--bad)')+'">'+(ans[i]!=null?"Your answer: "+esc(q.o[ans[i]]):"No answer")+(ok?" ✓":" ✗")+'</span>'+(ok?"":'<br><span style="color:var(--ok)">Correct: '+esc(q.o[q.a])+'</span>')+'</div>'}).join("");
+  window.scrollTo(0,0);
+}
+$("go").onclick=start;
+$("prev").onclick=function(){if(cur>0&&allowed(cur-1)){cur--;render()}};
+$("mark").onclick=function(){mk[cur]=!mk[cur];render()};
+$("next").onclick=function(){
+  if(cur===N-1){finish(false);return}
+  if(cur===NL-1&&!lisDone){
+    if(!confirm("After you finish Listening you cannot go back to these questions. Continue?"))return;
+    lisDone=true;try{speechSynthesis.cancel()}catch(e){}playing=false;cur=NL;render();return}
+  cur++;render();
+};
+</script>
+</body>
+</html>
